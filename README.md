@@ -126,4 +126,4 @@ Paleta utilizada: `#8F0B13`, `#EFDFC5`, `#380F17`, `#4C4F54`, `#252B2B`.
 
 ---
 
-Projeto acadêmico/protótipo para substituir anotações soltas por um fluxo centralizado e escalável.
+Projeto acadêmico Para fins de aprendizado
