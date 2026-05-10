@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: sos-eletro
+  config:
+    import: optional:classpath:application-local.yml
+
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/sos_eletro?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Sao_Paulo&characterEncoding=UTF-8
+    username: root
+    # Use variável de ambiente para não commitar senha; fallback só para dev local
+    password: ${MYSQL_PASSWORD:87701892}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      # update: cria/atualiza tabelas a partir das entidades (evita falha se o script SQL ainda não foi executado).
+      # Para alinhar 100% com o script do Workbench em produção, troque para: validate
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        # Dialeto inferido pelo Hibernate a partir do MySQL — evita divergência com MySQLDialect manual
+
+server:
+  port: 8080
+  error:
+    include-message: always
+
+logging:
+  level:
+    org.hibernate.SQL: WARN
+
+# JWT (use pelo menos 32 caracteres; altere em produção)
+sos:
+  security:
+    jwt-secret: ${JWT_SECRET:0123456789abcdef0123456789abcdef0123456789abcdef}
+    jwt-expiration-ms: 86400000

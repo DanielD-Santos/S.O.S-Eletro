@@ -1,0 +1,9 @@
+# INSTRUÇÕES
+# 1. Copie este arquivo para: src/main/resources/application-local.yml
+# 2. Descomente e preencha a senha do usuário MySQL (ex.: root).
+#
+# Exemplo de conteúdo de application-local.yml:
+#
+# spring:
+#   datasource:
+#     password: "sua_senha_mysql"

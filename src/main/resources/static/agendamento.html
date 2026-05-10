@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Agende sua assistência técnica com o S.O.S Eletro — rápido, organizado e sem conflito de horários.">
+    <title>Agendar atendimento — S.O.S Eletro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/agendamento.css">
+</head>
+<body class="booking-body">
+    <header class="header">
+        <div class="container header__inner">
+            <a href="/index.html" class="logo">S.O.S <span>Eletro</span></a>
+            <nav class="nav" id="nav">
+                <a href="/index.html">Início</a>
+                <a href="/index.html#cta">Contato</a>
+                <a href="/funcionario-login.html" class="nav__staff">Entrar (equipe)</a>
+                <a href="/funcionario-cadastro.html" class="nav__staff">Cadastro (equipe)</a>
+                <a href="/agendamento.html" class="nav__cta" aria-current="page">Agendar</a>
+            </nav>
+            <button type="button" class="nav-toggle" id="navToggle" aria-label="Abrir menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <main class="booking-main">
+        <div class="booking-hero">
+            <div class="container">
+                <p class="eyebrow">Agendamento online</p>
+                <h1 class="booking-title">S.O.S Eletro</h1>
+                <p class="booking-lead">
+                    Escolha o tipo de aparelho, o serviço desejado, data e horário em poucos passos.
+                    Os horários exibidos já desconsideram <strong>vagas ocupadas</strong> no nosso sistema — integrado ao banco de dados para evitar conflitos.
+                </p>
+            </div>
+        </div>
+
+        <div class="container booking-layout">
+            <aside class="booking-aside" aria-label="Informações">
+                <div class="booking-aside__card">
+                    <h2>Por que agendar?</h2>
+                    <ul class="booking-aside__list">
+                        <li>Atendimento organizado e previsível</li>
+                        <li>Menos fila e menos retrabalho</li>
+                        <li>Confirmação imediata após envio</li>
+                    </ul>
+                </div>
+            </aside>
+
+            <section class="booking-panel" aria-labelledby="formTitle">
+                <div class="booking-card">
+                    <h2 id="formTitle">Formulário de agendamento</h2>
+                    <p class="booking-card__hint">Campos marcados com <span class="req">*</span> são obrigatórios.</p>
+
+                    <div class="form-feedback form-feedback--hidden" id="formFeedback" role="alert" aria-live="polite"></div>
+
+                    <form id="formAgendamento" class="booking-form" novalidate>
+                        <div class="form-grid form-grid--2">
+                            <div class="form-group">
+                                <label for="nomeCliente">Nome completo <span class="req">*</span></label>
+                                <input type="text" id="nomeCliente" name="nomeCliente" autocomplete="name" maxlength="120" required placeholder="Seu nome">
+                                <span class="field-error" id="errNome"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="telefone">Telefone / WhatsApp <span class="req">*</span></label>
+                                <input type="tel" id="telefone" name="telefone" autocomplete="tel" maxlength="30" required placeholder="(81) 99999-9999">
+                                <span class="field-error" id="errTelefone"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-grid form-grid--2">
+                            <div class="form-group">
+                                <label for="tipoAparelho">Tipo de aparelho <span class="req">*</span></label>
+                                <select id="tipoAparelho" name="tipoAparelho" required>
+                                    <option value="">Selecione…</option>
+                                    <option value="CELULAR">Celulares</option>
+                                    <option value="NOTEBOOK">Notebooks</option>
+                                    <option value="IMPRESSORA">Impressoras</option>
+                                    <option value="COMPUTADOR">Computadores</option>
+                                    <option value="TABLET">Tablets</option>
+                                </select>
+                                <span class="field-error" id="errAparelho"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="tipoConserto">Tipo de conserto / assistência <span class="req">*</span></label>
+                                <select id="tipoConserto" name="tipoConserto" required>
+                                    <option value="">Selecione…</option>
+                                    <option value="Troca de tela / display">Troca de tela / display</option>
+                                    <option value="Troca de bateria">Troca de bateria</option>
+                                    <option value="Reparo de placa / não liga">Reparo de placa / não liga</option>
+                                    <option value="Formatação / software / vírus">Formatação / software / vírus</option>
+                                    <option value="Manutenção / limpeza / upgrade">Manutenção / limpeza / upgrade</option>
+                                    <option value="Impressão / toner / papel">Impressão / toner / papel</option>
+                                    <option value="Outro — descrever nas observações">Outro — descrever nas observações</option>
+                                </select>
+                                <span class="field-error" id="errConserto"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-grid form-grid--2">
+                            <div class="form-group">
+                                <label for="dataAtendimento">Data do atendimento <span class="req">*</span></label>
+                                <input type="date" id="dataAtendimento" name="dataAtendimento" required>
+                                <span class="field-error" id="errData"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="horario">Horário <span class="req">*</span></label>
+                                <select id="horario" name="horario" required disabled>
+                                    <option value="">Primeiro escolha a data</option>
+                                </select>
+                                <span class="field-error" id="errHorario"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="observacoes">Observações adicionais</label>
+                            <textarea id="observacoes" name="observacoes" rows="4" maxlength="2000" placeholder="Marca/modelo do aparelho, sintomas, peças em garantia…"></textarea>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn--primary btn--lg" id="btnSubmit">
+                                Confirmar agendamento
+                            </button>
+                            <a href="/index.html" class="btn btn--ghost">Voltar ao site</a>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer__inner">
+            <span class="logo logo--small">S.O.S <span>Eletro</span></span>
+            <p>Rua Andre Vidal de negreiros, n76, matriz, Vitória de Santo Antão</p>
+        </div>
+    </footer>
+
+    <script src="/js/app.js"></script>
+    <script src="/js/agendamento.js"></script>
+</body>
+</html>
