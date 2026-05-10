@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de agendamentos — S.O.S Eletro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/funcionario.css">
+</head>
+<body class="staff-body staff-body--panel">
+    <header class="staff-header">
+        <div class="container staff-header__inner">
+            <a href="/funcionario-painel.html" class="logo">S.O.S <span>Eletro</span></a>
+            <div class="staff-header__actions">
+                <span class="staff-user" id="staffUserEmail"></span>
+                <a href="/index.html" class="btn btn--ghost btn--sm">Voltar ao site</a>
+                <button type="button" class="btn btn--ghost btn--sm" id="btnLogout">Sair</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="staff-main container">
+        <div class="staff-page-head">
+            <div>
+                <h1 class="staff-title">Agendamentos</h1>
+                <p class="staff-sub">Centralize atendimentos, filtros e status em tempo real (integrado à API e ao MySQL).</p>
+            </div>
+        </div>
+
+        <div class="staff-toolbar">
+            <div class="staff-filters">
+                <label class="staff-label" for="filterStatus">Status</label>
+                <select id="filterStatus" class="staff-select">
+                    <option value="">Todos</option>
+                    <option value="AGENDADO">Agendado</option>
+                    <option value="EM_ATENDIMENTO">Em atendimento</option>
+                    <option value="CONCLUIDO">Concluído</option>
+                    <option value="CANCELADO">Cancelado</option>
+                </select>
+                <label class="staff-label" for="filterBusca">Buscar</label>
+                <input type="search" id="filterBusca" class="staff-input" placeholder="Nome do cliente ou tipo de aparelho">
+                <button type="button" class="btn btn--primary" id="btnFiltrar">Aplicar</button>
+            </div>
+        </div>
+
+        <div class="staff-alert staff-alert--success staff-alert--hidden" id="msgSuccess" role="status"></div>
+        <div class="staff-alert staff-alert--error staff-alert--hidden" id="msgError" role="alert"></div>
+
+        <div class="staff-table-wrap">
+            <table class="staff-table" id="tblAgendamentos">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Cliente</th>
+                        <th>Contato</th>
+                        <th>Aparelho</th>
+                        <th>Serviço</th>
+                        <th>Data</th>
+                        <th>Hora</th>
+                        <th>Status</th>
+                        <th class="staff-th-actions">Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="tblBody">
+                    <tr><td colspan="9" class="staff-empty">Carregando…</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <dialog class="staff-dialog" id="dlgDetalhe">
+        <form method="dialog" class="staff-dialog__inner">
+            <h2>Detalhes do agendamento</h2>
+            <div class="staff-detail" id="detalheConteudo"></div>
+            <div class="staff-dialog__actions">
+                <button type="submit" class="btn btn--primary">Fechar</button>
+            </div>
+        </form>
+    </dialog>
+
+    <dialog class="staff-dialog" id="dlgEditar">
+        <div class="staff-dialog__inner">
+            <h2>Editar agendamento</h2>
+            <form id="formEditar" class="staff-form-grid">
+                <input type="hidden" id="editId">
+                <div class="form-group">
+                    <label for="editNome">Nome</label>
+                    <input id="editNome" required maxlength="120">
+                </div>
+                <div class="form-group">
+                    <label for="editTel">Telefone / WhatsApp</label>
+                    <input id="editTel" required maxlength="30">
+                </div>
+                <div class="form-group">
+                    <label for="editAparelho">Tipo de aparelho</label>
+                    <select id="editAparelho" required></select>
+                </div>
+                <div class="form-group">
+                    <label for="editServico">Tipo de conserto</label>
+                    <input id="editServico" required maxlength="255">
+                </div>
+                <div class="form-group">
+                    <label for="editData">Data</label>
+                    <input type="date" id="editData" required>
+                </div>
+                <div class="form-group">
+                    <label for="editHora">Horário (HH:mm)</label>
+                    <input id="editHora" required pattern="^([01]\d|2[0-3]):[0-5]\d$" placeholder="09:30">
+                </div>
+                <div class="form-group form-group--full">
+                    <label for="editObs">Observações</label>
+                    <textarea id="editObs" rows="3" maxlength="2000"></textarea>
+                </div>
+                <div class="form-group form-group--full">
+                    <label for="editStatus">Status</label>
+                    <select id="editStatus" required>
+                        <option value="AGENDADO">Agendado</option>
+                        <option value="EM_ATENDIMENTO">Em atendimento</option>
+                        <option value="CONCLUIDO">Concluído</option>
+                        <option value="CANCELADO">Cancelado</option>
+                    </select>
+                </div>
+                <div class="staff-dialog__actions form-group--full">
+                    <button type="button" class="btn btn--ghost" id="btnCancelarEdit">Cancelar</button>
+                    <button type="submit" class="btn btn--primary">Salvar alterações</button>
+                </div>
+            </form>
+        </div>
+    </dialog>
+
+    <script src="/js/funcionario-painel.js"></script>
+</body>
+</html>
