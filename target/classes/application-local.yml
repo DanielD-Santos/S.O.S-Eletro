@@ -1,0 +1,6 @@
+# Configuração local — não versionar (já está no .gitignore).
+# Substitua a senha abaixo pela mesma que você usa no MySQL Workbench (usuário root).
+
+spring:
+  datasource:
+    password: "${MYSQL_PASSWORD:87701892}"
