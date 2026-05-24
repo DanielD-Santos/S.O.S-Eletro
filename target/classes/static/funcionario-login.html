@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login — Área do funcionário | S.O.S Eletro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/funcionario.css">
+</head>
+<body class="staff-body">
+    <div class="staff-login-wrap">
+        <div class="staff-login-card">
+            <p class="eyebrow">Acesso restrito</p>
+            <h1>S.O.S <span class="accent">Eletro</span></h1>
+            <p class="staff-login-lead">Entre com o e-mail e a senha para gerir os agendamentos.</p>
+
+            <div class="staff-alert staff-alert--success staff-alert--hidden" id="loginHint" role="status"></div>
+            <div class="staff-alert staff-alert--error staff-alert--hidden" id="loginError" role="alert"></div>
+
+            <form id="formLogin" class="staff-form" novalidate>
+                <div class="form-group">
+                    <label for="email">E-mail ou usuário</label>
+                    <input type="text" id="email" name="email" autocomplete="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Senha</label>
+                    <input type="password" id="password" name="password" autocomplete="current-password" required>
+                </div>
+                <button type="submit" class="btn btn--primary btn--lg staff-btn-full" id="btnLogin">Entrar</button>
+            </form>
+
+            <p class="staff-login-foot">
+                <a href="/funcionario-cadastro.html">Criar conta</a>
+                · <a href="/index.html">Voltar ao site</a>
+            </p>
+        </div>
+    </div>
+    <script src="/js/funcionario-login.js"></script>
+</body>
+</html>

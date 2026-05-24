@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro — Área do funcionário | S.O.S Eletro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/funcionario.css">
+</head>
+<body class="staff-body">
+    <div class="staff-login-wrap">
+        <div class="staff-login-card staff-login-card--wide">
+            <p class="eyebrow">Portal interno</p>
+            <h1>S.O.S <span class="accent">Eletro</span></h1>
+            <p class="staff-login-lead">Crie sua conta de funcionário para aceder ao painel de agendamentos.</p>
+
+            <div class="staff-alert staff-alert--error staff-alert--hidden" id="cadastroError" role="alert"></div>
+            <div class="staff-alert staff-alert--success staff-alert--hidden" id="cadastroSuccess" role="status"></div>
+
+            <form id="formCadastro" class="staff-form" novalidate>
+                <div class="form-group">
+                    <label for="nomeCompleto">Nome completo</label>
+                    <input type="text" id="nomeCompleto" name="nomeCompleto" autocomplete="name" required maxlength="160">
+                </div>
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" name="email" autocomplete="email" required maxlength="180">
+                </div>
+                <div class="form-group">
+                    <label for="senha">Senha</label>
+                    <input type="password" id="senha" name="senha" autocomplete="new-password" required minlength="8" maxlength="100">
+                </div>
+                <div class="form-group">
+                    <label for="confirmarSenha">Confirmar senha</label>
+                    <input type="password" id="confirmarSenha" name="confirmarSenha" autocomplete="new-password" required minlength="8" maxlength="100">
+                </div>
+                <button type="submit" class="btn btn--primary btn--lg staff-btn-full" id="btnCadastrar">Cadastrar</button>
+            </form>
+
+            <p class="staff-login-foot">
+                Já tem conta? <a href="/funcionario-login.html">Entrar</a>
+                · <a href="/index.html">Site</a>
+            </p>
+        </div>
+    </div>
+    <script src="/js/funcionario-cadastro.js"></script>
+</body>
+</html>
