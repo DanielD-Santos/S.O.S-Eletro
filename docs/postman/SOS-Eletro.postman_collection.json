@@ -1,0 +1,389 @@
+{
+  "info": {
+    "_postman_id": "sos-eletro-api-v1",
+    "name": "S.O.S Eletro API",
+    "description": "Collection da API REST S.O.S Eletro (`/api/v1`).\n\n1. Execute **Auth → Login funcionário** (ou cadastre antes em **Cadastro funcionário**).\n2. O JWT é salvo em `token` automaticamente.\n3. Rotas em **Agendamentos (público)** e **Health** não exigem token.\n\nVariáveis: `baseUrl`, `token`, `agendamentoId`, `clienteId`, `protocoloId`, `tecnicoId`, `identificador`.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "token", "value": "" },
+    { "key": "agendamentoId", "value": "1" },
+    { "key": "clienteId", "value": "1" },
+    { "key": "protocoloId", "value": "1" },
+    { "key": "tecnicoId", "value": "1" },
+    { "key": "identificador", "value": "SOS-20250101-0001" }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "Health check",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/v1/health"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Cadastro funcionário",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nomeCompleto\": \"Maria Funcionária\",\n  \"email\": \"maria@soseletro.local\",\n  \"senha\": \"senha12345\",\n  \"confirmarSenha\": \"senha12345\"\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/auth/cadastro"
+          }
+        },
+        {
+          "name": "Login funcionário",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const body = pm.response.json();",
+                  "    if (body.token) {",
+                  "        pm.collectionVariables.set('token', body.token);",
+                  "    }",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"maria@soseletro.local\",\n  \"password\": \"senha12345\"\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/auth/login"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Agendamentos (público)",
+      "item": [
+        {
+          "name": "Slots permitidos",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/agendamentos/slots-permitidos"
+          }
+        },
+        {
+          "name": "Horários ocupados",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/agendamentos/horarios-ocupados?data=2026-05-25",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "agendamentos", "horarios-ocupados"],
+              "query": [{ "key": "data", "value": "2026-05-25", "description": "ISO date (yyyy-MM-dd)" }]
+            }
+          }
+        },
+        {
+          "name": "Criar agendamento",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const body = pm.response.json();",
+                  "    if (body.id) pm.collectionVariables.set('agendamentoId', String(body.id));",
+                  "    if (body.numeroProtocolo) pm.collectionVariables.set('identificador', body.numeroProtocolo);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nomeCliente\": \"João Silva\",\n  \"telefone\": \"81999998888\",\n  \"tipoAparelho\": \"CELULAR\",\n  \"tipoConserto\": \"Troca de tela\",\n  \"dataAtendimento\": \"2026-05-25\",\n  \"horario\": \"09:00\",\n  \"observacoes\": \"Aparelho com trinca na lateral\"\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/agendamentos"
+          }
+        },
+        {
+          "name": "Atualizar contato (cliente)",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"telefoneCadastrado\": \"81999998888\",\n  \"nomeCliente\": \"João Silva Santos\",\n  \"telefone\": \"81988887777\"\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/agendamentos/{{identificador}}/contato"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin — Agendamentos",
+      "item": [
+        {
+          "name": "Listar agendamentos",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/admin/agendamentos?status=AGENDADO&q=",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "admin", "agendamentos"],
+              "query": [
+                { "key": "status", "value": "AGENDADO", "description": "AGENDADO | EM_ATENDIMENTO | CONCLUIDO | CANCELADO" },
+                { "key": "q", "value": "", "description": "Busca por nome, telefone ou protocolo" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Buscar agendamento por id",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/admin/agendamentos/{{agendamentoId}}"
+          }
+        },
+        {
+          "name": "Atualizar status",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"EM_ATENDIMENTO\"\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/admin/agendamentos/{{agendamentoId}}"
+          }
+        },
+        {
+          "name": "Concluir agendamento",
+          "request": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/api/v1/admin/agendamentos/{{agendamentoId}}/concluir"
+          }
+        },
+        {
+          "name": "Excluir agendamento",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/admin/agendamentos/{{agendamentoId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin — Sync",
+      "item": [
+        {
+          "name": "Sincronizar clientes e protocolos desde agendamentos",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "" },
+            "url": "{{baseUrl}}/api/v1/admin/sync/clientes-protocolos-desde-agendamentos"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Clientes",
+      "item": [
+        {
+          "name": "Listar clientes",
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/v1/clientes" }
+        },
+        {
+          "name": "Buscar cliente por id",
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/v1/clientes/{{clienteId}}" }
+        },
+        {
+          "name": "Criar cliente",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const body = pm.response.json();",
+                  "    if (body.id) pm.collectionVariables.set('clienteId', String(body.id));",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Ana Costa\",\n  \"email\": \"ana@email.com\",\n  \"telefone\": \"81977776666\",\n  \"cpf\": \"12345678901\",\n  \"endereco\": \"Rua das Flores, 100\",\n  \"numeroProtocolo\": \"PROT-001\"\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/clientes"
+          }
+        },
+        {
+          "name": "Atualizar cliente",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Ana Costa Silva\",\n  \"email\": \"ana.silva@email.com\",\n  \"telefone\": \"81977776666\",\n  \"cpf\": \"12345678901\",\n  \"endereco\": \"Rua das Flores, 200\",\n  \"numeroProtocolo\": \"PROT-001\"\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/clientes/{{clienteId}}"
+          }
+        },
+        {
+          "name": "Excluir cliente",
+          "request": { "method": "DELETE", "url": "{{baseUrl}}/api/v1/clientes/{{clienteId}}" }
+        }
+      ]
+    },
+    {
+      "name": "Protocolos",
+      "item": [
+        {
+          "name": "Listar protocolos",
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/v1/protocolos" }
+        },
+        {
+          "name": "Buscar protocolo por id",
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/v1/protocolos/{{protocoloId}}" }
+        },
+        {
+          "name": "Criar protocolo",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const body = pm.response.json();",
+                  "    if (body.id) pm.collectionVariables.set('protocoloId', String(body.id));",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"marca\": \"Samsung\",\n  \"modelo\": \"Galaxy A54\",\n  \"tipo\": \"CELULAR\",\n  \"numeroProtocolo\": \"PROT-001\",\n  \"clienteId\": {{clienteId}}\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/protocolos"
+          }
+        },
+        {
+          "name": "Atualizar protocolo",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"marca\": \"Samsung\",\n  \"modelo\": \"Galaxy A54 5G\",\n  \"tipo\": \"CELULAR\",\n  \"numeroProtocolo\": \"PROT-001\",\n  \"clienteId\": {{clienteId}}\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/protocolos/{{protocoloId}}"
+          }
+        },
+        {
+          "name": "Excluir protocolo",
+          "request": { "method": "DELETE", "url": "{{baseUrl}}/api/v1/protocolos/{{protocoloId}}" }
+        }
+      ]
+    },
+    {
+      "name": "Técnicos",
+      "item": [
+        {
+          "name": "Listar técnicos",
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/v1/tecnicos" }
+        },
+        {
+          "name": "Buscar técnico por id",
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/v1/tecnicos/{{tecnicoId}}" }
+        },
+        {
+          "name": "Criar técnico",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const body = pm.response.json();",
+                  "    if (body.id) pm.collectionVariables.set('tecnicoId', String(body.id));",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Carlos Técnico\",\n  \"email\": \"carlos@soseletro.local\",\n  \"telefone\": \"81966665555\",\n  \"especialidade\": \"Celulares e tablets\",\n  \"ativo\": true\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/tecnicos"
+          }
+        },
+        {
+          "name": "Atualizar técnico",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Carlos Técnico\",\n  \"email\": \"carlos@soseletro.local\",\n  \"telefone\": \"81966665555\",\n  \"especialidade\": \"Notebooks e celulares\",\n  \"ativo\": true\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/tecnicos/{{tecnicoId}}"
+          }
+        },
+        {
+          "name": "Excluir técnico",
+          "request": { "method": "DELETE", "url": "{{baseUrl}}/api/v1/tecnicos/{{tecnicoId}}" }
+        }
+      ]
+    }
+  ]
+}
