@@ -1,0 +1,4 @@
+com\soseletro\service\AgendamentoServiceTest.class
+com\soseletro\entity\AgendamentoPrePersistTest.class
+com\soseletro\mapper\AgendamentoMapperTest.class
+com\soseletro\util\TelefoneUtilTest.class
