@@ -1,0 +1,9 @@
+# Copie este arquivo para application-local.yml (mesma pasta) e preencha a senha.
+# O application-local.yml não é versionado (.gitignore).
+#
+# PowerShell:
+#   Copy-Item "src\main\resources\application-local.example.yml" "src\main\resources\application-local.yml"
+
+spring:
+  datasource:
+    password: "87701892" # Substitua pela senha do MySQL Workbench (usuário root)

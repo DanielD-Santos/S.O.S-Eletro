@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Corrija apenas o nome ou o telefone do seu agendamento no S.O.S Eletro.">
+    <title>Corrigir meus dados — S.O.S Eletro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/agendamento.css">
+</head>
+<body class="booking-body">
+    <header class="header">
+        <div class="container header__inner">
+            <a href="/index.html" class="logo">S.O.S <span>Eletro</span></a>
+            <nav class="nav" id="nav">
+                <a href="/index.html">Início</a>
+                <a href="/agendamento.html">Novo agendamento</a>
+                <a href="/agendamento-alterar.html">Corrigir dados</a>
+                <a href="/funcionario-login.html" class="nav__staff">Entrar</a>
+                <a href="/agendamento.html" class="nav__cta">Agendar</a>
+            </nav>
+            <button type="button" class="nav-toggle" id="navToggle" aria-label="Abrir menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <main class="booking-main">
+        <div class="booking-hero">
+            <div class="container">
+                <p class="eyebrow">Ajuste rápido</p>
+                <h1 class="booking-title">Corrigir nome ou telefone</h1>
+                <p class="booking-lead">
+                    Informe o <strong>número do protocolo</strong> (mostrado ao confirmar o agendamento) e o
+                    <strong>telefone que você usou no cadastro</strong>. Depois escolha <strong>só o que deseja alterar</strong>
+                    — o formulário mostra apenas esse campo.
+                </p>
+            </div>
+        </div>
+
+        <div class="container booking-layout">
+            <aside class="booking-aside" aria-label="Dicas">
+                <div class="booking-aside__card">
+                    <h2>Privacidade</h2>
+                    <ul class="booking-aside__list">
+                        <li>Só aparece o campo que você escolheu mudar</li>
+                        <li>O telefone cadastrado confirma que é você</li>
+                        <li>Não é possível alterar após concluído ou cancelado</li>
+                    </ul>
+                </div>
+            </aside>
+
+            <section class="booking-panel" aria-labelledby="tituloForm">
+                <div class="booking-card">
+                    <h2 id="tituloForm">Confirmar identidade</h2>
+                    <p class="booking-card__hint">Use o mesmo telefone informado no agendamento original (com ou sem máscara).</p>
+
+                    <div class="form-feedback form-feedback--hidden" id="formFeedback" role="alert" aria-live="polite"></div>
+
+                    <form id="formAlterar" class="booking-form" novalidate>
+                        <div class="form-group">
+                            <label for="protocolo">Número do protocolo <span class="req">*</span></label>
+                            <input type="text" id="protocolo" name="protocolo" required placeholder="Ex.: PRT-2026-001 ou número interno" autocomplete="off">
+                            <span class="field-error" id="errProtocolo"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="telefoneCadastrado">Telefone já cadastrado no agendamento <span class="req">*</span></label>
+                            <input type="tel" id="telefoneCadastrado" name="telefoneCadastrado" autocomplete="tel" maxlength="30" required placeholder="(81) 99999-9999">
+                            <span class="field-error" id="errTelCad"></span>
+                        </div>
+
+                        <fieldset class="form-group form-fieldset">
+                            <legend class="form-legend">O que deseja alterar? <span class="req">*</span></legend>
+                            <label class="radio-row">
+                                <input type="radio" name="tipoAlteracao" value="nome" required>
+                                Somente o nome
+                            </label>
+                            <label class="radio-row">
+                                <input type="radio" name="tipoAlteracao" value="telefone">
+                                Somente o telefone / WhatsApp
+                            </label>
+                            <span class="field-error" id="errTipo"></span>
+                        </fieldset>
+
+                        <div class="form-group form-group--hidden" id="blocoNome" hidden>
+                            <label for="nomeNovo">Novo nome completo <span class="req">*</span></label>
+                            <input type="text" id="nomeNovo" autocomplete="name" maxlength="120" placeholder="Como deve aparecer no agendamento">
+                            <span class="field-error" id="errNome"></span>
+                        </div>
+
+                        <div class="form-group form-group--hidden" id="blocoTelefone" hidden>
+                            <label for="telefoneNovo">Novo telefone / WhatsApp <span class="req">*</span></label>
+                            <input type="tel" id="telefoneNovo" autocomplete="tel" maxlength="30" placeholder="(81) 98888-7777">
+                            <span class="field-error" id="errTelNovo"></span>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn--primary btn--lg" id="btnSubmit">Salvar alteração</button>
+                            <a href="/agendamento.html" class="btn btn--ghost">Voltar ao agendamento</a>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer__inner">
+            <span class="logo logo--small">S.O.S <span>Eletro</span></span>
+            <p>Rua Andre Vidal de negreiros, n76, matriz, Vitória de Santo Antão</p>
+        </div>
+    </footer>
+
+    <script src="/js/app.js"></script>
+    <script src="/js/agendamento-alterar.js"></script>
+</body>
+</html>
